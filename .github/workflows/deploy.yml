@@ -1,24 +1,14 @@
+name: Deploy to GitHub Pages
 on:
   push:
-    branches: ["*"]
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
+    branches: ["main"]
+  workflow_dispatch:
 jobs:
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: nelsonjchen/gh-pages-pelican-action@0.2.0
-      env:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    uses: "getpelican/pelican/.github/workflows/github_pages.yml@main"
+    permissions:
+      contents: "read"
+      pages: "write"
+      id-token: "write"
+    with:
+      settings: "publishconf.py"
